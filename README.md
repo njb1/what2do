@@ -124,7 +124,7 @@ CREATE TABLE tasks (
     ```
     *Replace the values with your actual MySQL credentials.*
 
-3.  Create the Flask server file `app.py` (see code section below).
+3.  Create the Flask server file `app.py`.
 
 ### 5. Frontend Setup
 
@@ -157,7 +157,7 @@ Create the following files in your project root:
 | :----- | :-------------- | :------------------------- | :------------------------- |
 | GET    | `/tasks`        | Fetch all tasks            | -                          |
 | POST   | `/tasks`        | Create a new task          | `{"content": "String"}`    |
-| PUT    | `/tasks/<id>`   | Update a task (e.g., toggle complete) | `{"completed": Boolean}` |
+| PUT    | `/tasks/<id>`   | Update a task              | `{"completed": Boolean}`   |
 | DELETE | `/tasks/<id>`   | Delete a task              | -                          |
 
 ## 🔧 Troubleshooting
@@ -171,3 +171,10 @@ Create the following files in your project root:
 -   [Flask Official Quickstart](https://flask.palletsprojects.com/en/stable/quickstart/)
 -   [Using the Fetch API (MDN Web Docs)](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch)
 -   [MySQL Connector/Python Developer Guide](https://dev.mysql.com/doc/connector-python/en/)
+
+
+TODO: Manual database tests using MySQL workbench and/or command line
+TODO: Manual API testing using Postman/Insomnia
+TODO: Look into documentation for the API
+TODO: Automated tests for app.py
+TODO: Automated tests for script.js
