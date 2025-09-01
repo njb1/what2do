@@ -1,9 +1,17 @@
 const API_BASE_URL = 'http://localhost:5000';
-//const API_BASE_URL = 'http://http://127.0.0.1:5000';
-const taskForm = document.getElementById('task-form');
-const newTaskInput = document.getElementById('new-task-input');
-const tasksList = document.getElementById('tasks-list');
+// taskForm, newTaskInput, tasksList are references to HTML elements
+const taskForm = document.getElementById('task-form'); // Form for adding new tasks
+const newTaskInput = document.getElementById('new-task-input'); // Input field for new task content
+const tasksList = document.getElementById('tasks-list'); // UL element to display the list of tasks
 
+/**
+ * Fetches the list of tasks from the API and displays them.
+ * Handles errors by logging them to the console.
+ * 
+ * @async 
+ * @function fetchTasks
+ * @returns {Promise<void>} Resolves when tasks are fetched and displayed.
+ */
 async function fetchTasks() {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks`);
@@ -14,6 +22,12 @@ async function fetchTasks() {
     }
 }
 
+/**
+ * Renders a list of tasks in the DOM, updating their display and controls.
+ * Each task is shown with its content, a button to toggle completion, and a button to delete.
+ * 
+ * @param {Array<{id: number|string, content: string, completed: boolean}>} tasks - Array of task objects to display.
+ */
 function displayTasks(tasks) {
     tasksList.innerHTML = '';
     tasks.forEach(task => {
@@ -44,6 +58,15 @@ function displayTasks(tasks) {
     });
 }
 
+/**
+ * Adds a new task with the specified content to the server.
+ * Sends a POST request to the API and refreshes the task list on success.
+ *
+ * @async
+ * @function
+ * @param {string} content - The content of the task to add.
+ * @returns {Promise<void>} Resolves when the task is added and the list is refreshed.
+ */
 async function addTask(content) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks`, {
@@ -60,6 +83,16 @@ async function addTask(content) {
     }
 }
 
+/**
+ * Toggles the completion status of a task by sending a PUT request to the API.
+ * If the request is successful, refreshes the list of tasks.
+ *
+ * @async
+ * @function toggleTask
+ * @param {string|number} taskId - The unique identifier of the task to update.
+ * @param {boolean} newCompletedStatus - The new completion status to set for the task.
+ * @returns {Promise<void>} Resolves when the operation is complete.
+ */
 async function toggleTask(taskId, newCompletedStatus) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
@@ -75,6 +108,17 @@ async function toggleTask(taskId, newCompletedStatus) {
     }
 }
 
+/**
+ * Deletes a task by its ID from the server.
+ *
+ * Sends a DELETE request to the API to remove the specified task.
+ * If successful, refreshes the task list by calling fetchTasks().
+ *
+ * @async
+ * @function
+ * @param {string|number} taskId - The unique identifier of the task to delete.
+ * @returns {Promise<void>} Resolves when the task is deleted and the task list is refreshed.
+ */
 async function deleteTask(taskId) {
     try {
         const response = await fetch(`${API_BASE_URL}/tasks/${taskId}`, {
@@ -90,10 +134,15 @@ async function deleteTask(taskId) {
 
 taskForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    /**
+     * The trimmed value from the new task input field.
+     * @type {string}
+     */
     const content = newTaskInput.value.trim();
     if (content) {
         addTask(content);
     }
 });
 
+// Initial fetch of tasks when the DOM is fully loaded
 document.addEventListener('DOMContentLoaded', fetchTasks);
