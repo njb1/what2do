@@ -45,6 +45,11 @@ def test_add_task(client):
     data = response.get_json()
     assert "message" in data
     assert data["message"] == "Task added successfully!"
+    # Delete the task to clean up
+    get_response = client.get('/tasks')
+    tasks = get_response.get_json()
+    task_id = tasks[0]['id']  # Assuming newest is first due to DESC order
+    client.delete(f'/tasks/{task_id}')
 
 
 def test_update_task(client):
@@ -67,6 +72,8 @@ def test_update_task(client):
     data = update_response.get_json()
     assert "message" in data
     assert data["message"] == "Task updated successfully!"
+    # Clean up by deleting the task
+    client.delete(f'/tasks/{task_id}')
 
 
 def test_delete_task(client):

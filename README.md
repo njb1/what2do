@@ -176,5 +176,5 @@ Create the following files in your project root:
 TODO: Manual database tests using MySQL workbench and/or command line
 TODO: Manual API testing using Postman/Insomnia
 TODO: Look into documentation for the API
-TODO: Automated tests for app.py
+TODO: Automated tests for app.py - Done
 TODO: Automated tests for script.js

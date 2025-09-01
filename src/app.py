@@ -27,6 +27,7 @@ def get_db_connection():
         password=os.getenv('DB_PASSWORD', 'your_mysql_password'),
         database=os.getenv('DB_NAME', 'todo_app')
     )
+    print(f"Connected to database: {connection.database}")
     return connection
 
 @app.route('/tasks', methods=['GET'])
@@ -40,6 +41,7 @@ def get_tasks():
     cursor = connection.cursor(dictionary=True)
     cursor.execute('SELECT * FROM tasks ORDER BY date_created DESC')
     tasks = cursor.fetchall()
+    print(f"Fetched tasks: {tasks}")
     cursor.close()
     connection.close()
     return jsonify(tasks)
@@ -61,6 +63,8 @@ def add_task():
     content = new_task['content']
     connection = get_db_connection()
     cursor = connection.cursor()
+    print(f"Inserting task with content: {content}")
+    print(f"Database before insertion: {connection.database}")
     cursor.execute('INSERT INTO tasks (content) VALUES (%s)', (content,))
     connection.commit()
     cursor.close()
@@ -83,6 +87,8 @@ def update_task(task_id):
     new_completed = updated_data.get('completed')
     connection = get_db_connection()
     cursor = connection.cursor()
+    print(f"Updating task ID {task_id} to completed={new_completed}")
+    print(f"Database before update: {connection.database}")   
     cursor.execute('UPDATE tasks SET completed = %s WHERE id = %s', (new_completed, task_id))
     connection.commit()
     cursor.close()
@@ -100,6 +106,8 @@ def delete_task(task_id):
     """
     connection = get_db_connection()
     cursor = connection.cursor()
+    print(f"Deleting task ID {task_id}")
+    print(f"Database before deletion: {connection.database}")
     cursor.execute('DELETE FROM tasks WHERE id = %s', (task_id,))
     connection.commit()
     cursor.close()
